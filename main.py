@@ -1,66 +1,85 @@
-import streamlit as st
-import numpy as np
 import datetime
+from typing import Literal, Union
+
 import holidays
+import numpy as np
+import streamlit as st
 
-st.title("TO Tools and Calculator")
-st.write("Created : 26 Dec 2023")
+from src import days_calculator
 
-# days calculator
-st.header("Days Calculator")
 
-# calendar day or working day selector
-day_types = st.radio(
-    "**Select day type**",
-    ["Calendar day", "Working day"],
-    captions=["Usual calendar days", "Business days, excluding weekends and holidays"],
-)
+def main():
+    st.title("TO Tools and Calculator")
+    st.write("Created : 26 Dec 2023")
 
-# date selector
-col1, col2 = st.columns(2)
-with col1:
-    start_date = st.date_input("Select start date", format="DD/MM/YYYY", value=None)
-    start_inclusive = st.toggle("Include start date")
-with col2:
-    end_date = st.date_input("Select end date", format="DD/MM/YYYY", value=None)
-    end_inclusive = st.toggle("Include end date")
+    # days calculator
+    st.header("Days Calculator")
 
-if start_date is not None and end_date is not None:
-    if end_date <= start_date:
-        st.error("End date must be after start date")
-    else:
-        # for calendar day
-        if day_types == "Calendar day":
-            # by default, the timedelta is not inclusive to both sides
-            num_days = end_date - start_date - datetime.timedelta(days=1)
-            if start_inclusive:
-                num_days += datetime.timedelta(days=1)
-            if end_inclusive:
-                num_days += datetime.timedelta(days=1)
-            num_days = num_days.days
+    # calendar day or working day selector
+    day_types = st.radio(
+        "**Select day type**",
+        ["Calendar day", "Working day"],
+        captions=[
+            "Usual calendar days",
+            "Business days, excluding weekends and holidays",
+        ],
+    )
+    # date selector
+    col1, col2 = st.columns(2)
+    with col1:
+        start_date = st.date_input("Select start date", format="DD/MM/YYYY", value=None)
+        start_inclusive = st.toggle("Include start date")
+    with col2:
+        end_date = st.date_input("Select end date", format="DD/MM/YYYY", value=None)
+        end_inclusive = st.toggle("Include end date")
 
-        # for working day
-        elif day_types == "Working day":
-            # get all holidays between start date and end date
-            start_year = start_date.year
-            end_year = end_date.year
-            all_holidays = {}
-            for year in range(start_year, end_year + 1):
-                holidays_for_year = holidays.Indonesia(years=year)
-                all_holidays.update(holidays_for_year)
+    if start_date is not None and end_date is not None:
+        # start date must be <= end date
+        if end_date <= start_date:
+            st.error("End date must be after start date")
 
-            # convert all holidays into an array of datetime
-            all_holidays_arr = [np.datetime64(d) for d in list(all_holidays.keys())]
+        else:
+            # create inclusivity
+            if start_inclusive and end_inclusive:
+                inclusive = "both"
+            elif start_inclusive:
+                inclusive = "left"
+            elif end_inclusive:
+                inclusive = "right"
+            else:
+                inclusive = "neither"
 
-            # by default, the timedelta is not inclusive to both sides
-            # however, we need to add timedelta to date to check if holiday
-            if start_inclusive:
-                start_date -= datetime.timedelta(days=1)
-            if end_inclusive:
-                end_date += datetime.timedelta(days=1)
-            num_days = (
-                np.busday_count(start_date, end_date, holidays=all_holidays_arr) - 1
-            )
+            # for calendar day
+            if day_types == "Calendar day":
+                num_days = days_calculator.calculate_days_between(
+                    start_date, end_date, "calendar", inclusive
+                )
 
-        st.success(f"Days between : **{num_days} days**")
-        st.write(all_holidays_arr)
+            # for working day
+            elif day_types == "Working day":
+                num_days = days_calculator.calculate_days_between(
+                    start_date, end_date, "working", inclusive
+                )
+                holidays_between = days_calculator.get_holidays_between(
+                    start_date, end_date, inclusive
+                )
+
+            # display result
+            if day_types == "Calendar day":
+                message = f"Calendar days between : **{num_days} days**"
+            elif day_types == "Working day":
+                message = f"Working days between : **{num_days} days**"
+            st.success(message)
+
+            # for working days, display the holiday
+            if day_types == "Working day":
+                st.write("Holidays between these two dates:")
+                if len(holidays_between) > 0:
+                    for k, v in holidays_between.items():
+                        st.write("- ", k, ":", v)
+                else:
+                    st.write("- None")
+
+
+if __name__ == "__main__":
+    main()
