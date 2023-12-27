@@ -4,7 +4,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 st.header("Hold or Pay Last Salary?")
-st.write("Resigner's salary should be hold, **minimum one month of salary**.")
+st.write("Salary for resigning employees should be held, with a **minimum withholding of one month's salary**.")
 st.divider()
 
 

@@ -2,7 +2,7 @@ import streamlit as st
 from src import days_calculator
 
 st.header("Days Calculator")
-st.write("No more manual counting.")
+st.write("No more manual counting. I'm tired of that.")
 st.divider()
 
 # calendar day or working day selector
