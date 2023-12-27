@@ -1,7 +1,6 @@
 import streamlit as st
 from src import days_calculator
 
-# days calculator
 st.header("Days Calculator")
 st.divider()
 
