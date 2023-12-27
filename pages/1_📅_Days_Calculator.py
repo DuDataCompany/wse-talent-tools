@@ -2,6 +2,7 @@ import streamlit as st
 from src import days_calculator
 
 st.header("Days Calculator")
+st.write("No more manual counting.")
 st.divider()
 
 # calendar day or working day selector
@@ -23,6 +24,7 @@ with col2:
     end_inclusive = st.toggle("Include end date")
 
 if start_date is not None and end_date is not None:
+    st.subheader("Result")
     # start date must be <= end date
     if end_date <= start_date:
         st.error("End date must be after start date")
