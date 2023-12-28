@@ -1,14 +1,8 @@
-import pandas as pd
 import streamlit as st
 from dateutil.relativedelta import relativedelta
 
-from src import days_calculator
-
-
 st.header("Bonus Calculator")
-st.write(
-    "We give bonus for resigning employees who have served us for a long time."
-)
+st.write("We give bonus for resigning employees who have served us for a long time.")
 st.divider()
 
 
