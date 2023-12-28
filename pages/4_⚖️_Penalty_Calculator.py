@@ -1,8 +1,8 @@
 import streamlit as st
 from dateutil.relativedelta import relativedelta
 
-st.header("Bonus Calculator")
-st.write("We give bonus for resigning employees who have served us for a long time.")
+st.header("Penalty Calculator")
+st.write("We impose penalty for resigning contract employees.")
 st.divider()
 
 
