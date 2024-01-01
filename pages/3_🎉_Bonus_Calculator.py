@@ -20,8 +20,8 @@ with col2:
 
 
 if start_date is not None and end_date is not None:
+    # start date must be <= end date
     if end_date <= start_date:
-        # start date must be <= end date
         st.error("End date must be after start date")
     else:
         diff = relativedelta(end_date, start_date)

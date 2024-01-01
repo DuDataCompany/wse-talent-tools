@@ -8,6 +8,7 @@ st.divider()
 
 
 def month_diff(a, b):
+    """Find the number of month between two dates (rounded down)."""
     return relativedelta(a, b).months
 
 
@@ -15,16 +16,14 @@ def month_diff(a, b):
 last_wd = st.date_input("**Select last working day**", format="DD/MM/YYYY", value=None)
 
 
-# last payroll cycle of that particular employee
+# calculate last payroll cycle of that particular employee
 if last_wd and last_wd.day <= 23:
     last_payroll_cycle = last_wd + pd.DateOffset(day=23)
 elif last_wd and last_wd.day > 23:
     last_payroll_cycle = last_wd + pd.DateOffset(day=23) + pd.DateOffset(months=1)
 
 
-# get last 6 payroll cycles
 if last_wd:
-    st.subheader("Result")
     # the closing of payroll cycle
     last_6_payroll_cycle_ending = [
         last_payroll_cycle - pd.DateOffset(months=i) for i in range(0, 7, 1)
@@ -34,6 +33,7 @@ if last_wd:
         d - pd.DateOffset(months=1) - pd.DateOffset(day=24) for d in last_6_payroll_cycle_ending
     ]
 
+    st.subheader("Result")
     st.write(f"Last working day : **{last_wd.strftime("%d %b %Y")}**")
     st.write(
         f"Last payroll cycle : ", 

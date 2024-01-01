@@ -31,8 +31,8 @@ if (
     and last_working_date is not None
     and base_salary is not None
 ):
+    # start date must be <= end date
     if contract_end_date <= contract_start_date:
-        # start date must be <= end date
         st.error("Contract end date must be after start date")
     else:
         end_date_to_last_wd = relativedelta(contract_end_date, contract_start_date)
