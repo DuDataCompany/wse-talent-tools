@@ -34,11 +34,11 @@ if last_wd:
     ]
 
     st.subheader("Result")
-    st.write(f"Last working day : **{last_wd.strftime("%d %b %Y")}**")
+    st.write(f"Last working day : **{last_wd.strftime('%d %b %Y')}**")
     st.write(
         f"Last payroll cycle : ", 
-        f"**{last_6_payroll_cycle_beginning[0].strftime("%d %b %Y")}** - "
-        f"**{last_6_payroll_cycle_ending[0].strftime("%d %b %Y")}**"
+        f"**{last_6_payroll_cycle_beginning[0].strftime('%d %b %Y')}** - "
+        f"**{last_6_payroll_cycle_ending[0].strftime('%d %b %Y')}**"
     )
 
     for begin, end in zip(
@@ -49,8 +49,8 @@ if last_wd:
         elif month_diff(last_wd, end) >= 1:
             payment_status = "**:green[Pay]**"
         st.write(
-            f"- {begin.strftime("%d %b %Y")} - ", 
-            f"{end.strftime("%d %b %Y")} :", 
+            f"- {begin.strftime('%d %b %Y')} - ", 
+            f"{end.strftime('%d %b %Y')} :", 
             payment_status
         )
 
