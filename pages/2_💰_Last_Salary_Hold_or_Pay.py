@@ -1,15 +1,12 @@
 import pandas as pd
 import streamlit as st
-from dateutil.relativedelta import relativedelta
+from src import last_salary_hold
 
 st.header("Hold or Pay Last Salary?")
-st.write("Salary for resigning employees should be held, with a **minimum withholding of one month's salary**.")
+st.write(
+    "Salary for resigning employees should be held, with a **minimum withholding of one month's salary**."
+)
 st.divider()
-
-
-def month_diff(a, b):
-    """Find the number of month between two dates (rounded down)."""
-    return relativedelta(a, b).months
 
 
 # last working days selector
@@ -30,27 +27,31 @@ if last_wd:
     ]
     # the corresponding opening of payrol cycle
     last_6_payroll_cycle_beginning = [
-        d - pd.DateOffset(months=1) - pd.DateOffset(day=24) for d in last_6_payroll_cycle_ending
+        d - pd.DateOffset(months=1) - pd.DateOffset(day=24)
+        for d in last_6_payroll_cycle_ending
     ]
 
     st.subheader("Result")
     st.write(f"Last working day : **{last_wd.strftime('%d %b %Y')}**")
     st.write(
-        f"Last payroll cycle : ", 
+        f"Last payroll cycle : ",
         f"**{last_6_payroll_cycle_beginning[0].strftime('%d %b %Y')}** - "
-        f"**{last_6_payroll_cycle_ending[0].strftime('%d %b %Y')}**"
+        f"**{last_6_payroll_cycle_ending[0].strftime('%d %b %Y')}**",
     )
-
-    for begin, end in zip(
+    # iterate over last 6 payroll cycles
+    for payroll_start, payroll_end in zip(
         last_6_payroll_cycle_beginning, last_6_payroll_cycle_ending
     ):
-        if month_diff(last_wd, end) < 1:
-            payment_status = "**:red[Hold]**"
-        elif month_diff(last_wd, end) >= 1:
-            payment_status = "**:green[Pay]**"
-        st.write(
-            f"- {begin.strftime('%d %b %Y')} - ", 
-            f"{end.strftime('%d %b %Y')} :", 
-            payment_status
+        # whether to pay salay for this month or not
+        pay = last_salary_hold.hold_or_pay(
+            last_wd=last_wd, payroll_cycle_end_date=payroll_end
         )
-
+        if pay:
+            payment_status = "**:green[Pay]**"
+        else:
+            payment_status = "**:red[Hold]**"
+        st.write(
+            f"- {payroll_start.strftime('%d %b %Y')} - ",
+            f"{payroll_end.strftime('%d %b %Y')} :",
+            payment_status,
+        )
