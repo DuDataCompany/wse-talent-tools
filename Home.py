@@ -4,6 +4,7 @@ import streamlit as st
 def main():
     st.title("TO Tools and Calculator")
     st.write("Created : 26 Dec 2023")
+    st.write("Updated : 8 Jun 2024")
     st.divider()
 
     st.write(
@@ -20,7 +21,7 @@ def main():
         3. **🎉 Bonus Calculator**: Calculate the bonus received by an employee.
         4. **⚖️ Penalty Calculator**: Calculate the penalty for a contract employee who resigns.
         5. **👴🏻 Age Calculator**: Find the age from DOB.
-        6. **🏥 Insurance Premium Calculator**: Calculate the monthly insurance premium from the yearly amount.
+        6. **💸 SalaryCalculator**: Calculate THP given a base salary.
     """
     )
 
