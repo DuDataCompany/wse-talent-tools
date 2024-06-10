@@ -1,5 +1,4 @@
 import pandas as pd
-from tabulate import tabulate
 from pprint import pprint
 
 tax_brackets = pd.read_excel("src/ter.xlsx")
