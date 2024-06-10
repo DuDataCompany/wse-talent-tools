@@ -57,11 +57,11 @@ if calculate:
 
         # print result
         st.write(f"Base salary = **{base_salary:,}**")
-        st.write(f"Tax = **- {result.get("tax"):,}**")
-        st.write(f"JHT Employee = **- {result.get("jht_employee"):,}**")
-        st.write(f"JP Employee = **- {result.get("jp_employee"):,}**")
-        st.write(f"JKN Employee = **- {result.get("jkn_employee"):,}**")
-        st.write(f"Take Home Pay = **{result.get("thp"):,}**")
+        st.write(f"Tax = **- {result.get('tax'):,}**")
+        st.write(f"JHT Employee = **- {result.get('jht_employee'):,}**")
+        st.write(f"JP Employee = **- {result.get('jp_employee'):,}**")
+        st.write(f"JKN Employee = **- {result.get('jkn_employee'):,}**")
+        st.write(f"Take Home Pay = **{result.get('thp'):,}**")
 
         st.divider()
         st.write("#### Note")
