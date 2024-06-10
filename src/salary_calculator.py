@@ -105,79 +105,79 @@ def calculate_thp(base_salary, tax_status, insurance_premium, is_bpjs_tk, is_bpj
     }
 
 
-# test
-if __name__ == "__main__":
+# # test
+# if __name__ == "__main__":
 
-    payroll_file = pd.read_excel("test/2024-05.xlsx")
-    for row in payroll_file.itertuples():
+#     payroll_file = pd.read_excel("test/2024-05.xlsx")
+#     for row in payroll_file.itertuples():
 
-        # this is from file
-        name = row.name
-        base_salary = row.base_salary
-        transport_allowance = row.transport_allowance
-        commission = row.commission
-        gross_salary = row.gross_salary
-        insurance_premium = row.insurance_premium
-        is_bpjs_kes = row.bpjs_kes_id > 0
-        is_bpjs_tk = row.bpjs_tk_id > 0
-        jht_company = row.jht_company
-        jht_employee = row.jht_employee
-        jkk_company = row.jkk_company
-        jkm_company = row.jkm_company
-        jkn_company = row.jkn_company
-        jkn_employee = row.jkn_employee
-        jp_company = row.jp_company
-        jp_employee = row.jp_employee
-        tax = row.tax
-        tax_status = row.tax_status
-        thp = row.thp
-        from_file = {
-            "gross_salary": gross_salary,
-            "jht_company": jht_company,
-            "jht_employee": jht_employee,
-            "jkk_company": jkk_company,
-            "jkm_company": jkm_company,
-            "jkn_company": jkn_company,
-            "jkn_employee": jkn_employee,
-            "jp_company": jp_company,
-            "jp_employee": jp_employee,
-            "tax": tax,
-            "thp": thp,
-        }
+#         # this is from file
+#         name = row.name
+#         base_salary = row.base_salary
+#         transport_allowance = row.transport_allowance
+#         commission = row.commission
+#         gross_salary = row.gross_salary
+#         insurance_premium = row.insurance_premium
+#         is_bpjs_kes = row.bpjs_kes_id > 0
+#         is_bpjs_tk = row.bpjs_tk_id > 0
+#         jht_company = row.jht_company
+#         jht_employee = row.jht_employee
+#         jkk_company = row.jkk_company
+#         jkm_company = row.jkm_company
+#         jkn_company = row.jkn_company
+#         jkn_employee = row.jkn_employee
+#         jp_company = row.jp_company
+#         jp_employee = row.jp_employee
+#         tax = row.tax
+#         tax_status = row.tax_status
+#         thp = row.thp
+#         from_file = {
+#             "gross_salary": gross_salary,
+#             "jht_company": jht_company,
+#             "jht_employee": jht_employee,
+#             "jkk_company": jkk_company,
+#             "jkm_company": jkm_company,
+#             "jkn_company": jkn_company,
+#             "jkn_employee": jkn_employee,
+#             "jp_company": jp_company,
+#             "jp_employee": jp_employee,
+#             "tax": tax,
+#             "thp": thp,
+#         }
 
-        # this is calculation
-        calculation = calculate_thp(
-            base_salary,
-            tax_status,
-            insurance_premium,
-            is_bpjs_tk,
-            is_bpjs_kes,
-        )
+#         # this is calculation
+#         calculation = calculate_thp(
+#             base_salary,
+#             tax_status,
+#             insurance_premium,
+#             is_bpjs_tk,
+#             is_bpjs_kes,
+#         )
 
-        def compare_dicts(dict1, dict2, threshold=0):
-            differences = {}
-            all_keys = set(dict1.keys()).union(set(dict2.keys()))
+#         def compare_dicts(dict1, dict2, threshold=0):
+#             differences = {}
+#             all_keys = set(dict1.keys()).union(set(dict2.keys()))
 
-            for key in all_keys:
-                if key in dict1 and key in dict2:
-                    diff = dict1[key] - dict2[key]
-                    if abs(diff) > threshold:
-                        differences[key] = diff
-                elif key not in dict1:
-                    differences[key] = f"Key '{key}' is missing in dict1"
-                else:
-                    differences[key] = f"Key '{key}' is missing in dict2"
-            return differences
+#             for key in all_keys:
+#                 if key in dict1 and key in dict2:
+#                     diff = dict1[key] - dict2[key]
+#                     if abs(diff) > threshold:
+#                         differences[key] = diff
+#                 elif key not in dict1:
+#                     differences[key] = f"Key '{key}' is missing in dict1"
+#                 else:
+#                     differences[key] = f"Key '{key}' is missing in dict2"
+#             return differences
 
-        def print_differences(differences):
-            print("Differences found:")
-            for key, diff in differences.items():
-                pprint(f"Key '{key}' has a difference of {diff}")
+#         def print_differences(differences):
+#             print("Differences found:")
+#             for key, diff in differences.items():
+#                 pprint(f"Key '{key}' has a difference of {diff}")
 
-        print()
-        print(f"Check for {name} started.")
-        differences = compare_dicts(calculation, from_file, threshold=1)
-        if differences:
-            print_differences(differences)
-            break
-        print(f"Check for {name} finished, all OK.")
+#         print()
+#         print(f"Check for {name} started.")
+#         differences = compare_dicts(calculation, from_file, threshold=1)
+#         if differences:
+#             print_differences(differences)
+#             break
+#         print(f"Check for {name} finished, all OK.")
